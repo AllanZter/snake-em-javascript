@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Snake JavaScript</title>
+
+        <style>
+
+            #tela{
+                text-align: center;
+                
+                
+                
+            }
+            body{
+                background-color: aqua;
+            }
+            footer{
+                text-align: center;
+                margin-top: 20px;
+                font-size: larger;
+            }
+            #pontos{
+                text-align: right;
+            }
+            #pontos{
+                text-align: center;
+                margin: 5px;
+
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="pontos">
+            <p id="pontos"><h1></h1></p>
+        </div>
+        <div id="tela">
+
+            <h1>Snake Game</h1>
+            <canvas id="stage"  width="400" height="400"></canvas>
+        </div>
+        
+        <script type="text/JavaScript">
+
+           //game
+            window.onload = function(){
+
+                var stage = document.getElementById('stage');
+                var ctx = stage.getContext("2d");
+                document.addEventListener("keydown", keyPush);
+                setInterval(game, 100);
+
+                const vel = 1; //velocidade
+
+                var vx = vy = 0; 
+                var px = 10;
+                var py = 15;
+                var tam = 20; 
+                var qt = 20; 
+                var ax = ay = 15; //apple
+
+                var score = 0;
+                
+                
+
+
+                var trail = [];
+                tail = 5;
+
+                function game() {
+
+                    
+                    px += vx;
+                    py +=vy;
+
+                    if (px <0) {
+                        px = qt -1;
+                        
+                    }
+                    if(px > qt -1){
+                        px = 0;
+                    }
+                    if (py <0) {
+                        py = qt -1;
+                        
+                    }
+                    if(py > qt -1){
+                        py = 0;
+                    }
+
+                    ctx.fillStyle = "black";
+                    ctx.fillRect(0,0, stage.width, stage.height);
+                    
+                    ctx.fillStyle = "red";
+                    ctx.fillRect(ax*tam, ay*tam, tam, tam);
+
+                    ctx.fillStyle = "green";
+                    for (var i = 0; i < trail.length; i++) {
+                        ctx.fillRect(trail[i].x*tam, trail[i].y*tam, tam, tam);
+                        
+                        //game over
+                        if(trail[i].x == px && trail[i].y == py){
+                            vx = vy = 0;
+                            document.getElementById("pontos").innerHTML = "<h1>Game Over</h1>"
+                            
+                        }
+                       
+                    }
+
+                    trail.push({x:px, y:py})
+                    while (trail.length > tail){
+                        trail.shift();
+                        
+                    }
+                    if(ax == px && ay == py){
+                        tail++;
+                        document.getElementById('pontos').innerHTML = "<h1>SCORE:</h1>" + score++ ;
+                        ax = Math.floor(Math.random()*qt);
+                        ay = Math.floor(Math.random()*qt);
+
+                       
+                    }
+
+                    
+                }
+
+               
+
+                function keyPush(event) {
+                    switch (event.keyCode) {
+                        case 37: //left
+                            vx = -vel;
+                            vy = 0;
+                            break;
+                        case 38: //up
+                            vx = 0;
+                            vy = -vel;
+                            break;
+                        case 39: //right
+                            vx = vel;
+                            vy = 0;
+                            break;
+                        case 40: //down
+                            vx = 0;
+                            vy = vel;
+                            break;
+                        default:
+                            break;
+                    }
+                    
+                }
+
+                //window.document.write(score); 
+
+               
+
+                    
+                    
+           
+               
+            }       
+
+
+
+
+
+
+
+
+
+
+        </script>
+
+
+        <footer>Allan Carvalho Souza</footer>
+
+
+
+    </body>
+</html>
